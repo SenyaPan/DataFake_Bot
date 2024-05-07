@@ -1,0 +1,5 @@
+/.idea/
+__pycache__/
+/trash.py
+/bot_feedback.txt
+/.env
