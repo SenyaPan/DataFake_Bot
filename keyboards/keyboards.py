@@ -70,9 +70,10 @@ def get_choose_keyboard() -> InlineKeyboardMarkup:
     button2 = InlineKeyboardButton(text="2", callback_data="switch to 2")
     button3 = InlineKeyboardButton(text="3", callback_data="switch to 3")
     button4 = InlineKeyboardButton(text="4", callback_data="switch to 4")
-    button6 = InlineKeyboardButton(text="5", callback_data="switch to 5")
-    button5 = InlineKeyboardButton(text="latest", callback_data="switch to 4")
-    keyboard.add(button1, button2, button3, button4, button6, button5)
+    button5 = InlineKeyboardButton(text="5", callback_data="switch to 5")
+    button6 = InlineKeyboardButton(text="5", callback_data="switch to 6")
+    button7 = InlineKeyboardButton(text="latest", callback_data="switch to 6")
+    keyboard.add(button1, button2, button3, button4, button5, button6, button7)
     return keyboard
 
 
