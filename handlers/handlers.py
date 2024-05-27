@@ -72,10 +72,13 @@ def is_whitelisted(user_id, whitelist):
 
 
 async def process_photo(message: Message):
-    whitelist = load_whitelist()
-    if not is_whitelisted(message.from_user.id, whitelist):
-        await message.answer(text="Sorry, you haven't access to this bot.")
-        return 1
+    # uncomment strings below when the whitelist would be needed
+
+    # whitelist = load_whitelist()
+    # if not is_whitelisted(message.from_user.id, whitelist):
+    #     await message.answer(text="Sorry, you have no access to this bot.")
+    #     return 1
+
     await message.answer(text=LEXICON_EN['processing'])
     path_for_photo = 'data/' + str(message.from_user.id)
     try:
@@ -109,10 +112,11 @@ async def process_photo(message: Message):
             with open(f'data/{result_photo_path}', 'wb') as f:
                 f.write(result.content)
             photo = open(f'data/{result_photo_path}', 'rb')
-            result_percent = round(results[str(i)]*100, 2)
+            result_percent = round(results[str(i)] * 100, 2)
             answer = "We think it's fake!" if result_percent > 50 else "We think it's real!"
-            await message.answer_photo(photo, caption=f'{result_percent}%\n'+ answer)
-            keyboard = get_feedback_keyboard(filename=f'data/{result_photo_path}', class_name='real' if result_percent <= 50 else 'false')
+            await message.answer_photo(photo, caption=f'{result_percent}%\n' + answer)
+            keyboard = get_feedback_keyboard(filename=f'data/{result_photo_path}',
+                                             class_name='real' if result_percent <= 50 else 'false')
             await message.answer(text=LEXICON_EN['feedback'], reply_markup=keyboard)
 
         answer = 'All faces were analyzed successfully!'
@@ -126,10 +130,13 @@ async def process_photo(message: Message):
 
 
 async def process_video(message: Message):
-    whitelist = load_whitelist()
-    if not is_whitelisted(message.from_user.id, whitelist):
-        await message.answer(text="Sorry, you haven't access to this bot.")
-        return 1
+    # uncomment strings below when the whitelist would be needed
+
+    # whitelist = load_whitelist()
+    # if not is_whitelisted(message.from_user.id, whitelist):
+    #     await message.answer(text="Sorry, you haven't access to this bot.")
+    #     return 1
+
     await message.answer(text=LEXICON_EN['processing'])
     path_for_video = 'data/' + str(message.from_user.id)
     try:
@@ -138,7 +145,10 @@ async def process_video(message: Message):
         pass
 
     video_path = f'{path_for_video}/received_{str(datetime.now().strftime("%y%m%d_%H%M%S"))}.mp4'
-    await message.video.download(destination_file=video_path)
+    try:
+        await message.video_note.download(destination_file=video_path)
+    except:
+        await message.video.download(destination_file=video_path)
 
     if message.chat.id == 1084029137 or message.chat.id == 385148863:
         env = Env()
@@ -164,10 +174,11 @@ async def process_video(message: Message):
                 f.write(face.content)
             photo = open(f'data/{result_video_path}', 'rb')
             result_without_none = [x for x in results[str(i)] if x is not None]
-            result_percent = round(np.mean(result_without_none)*100, 2)
+            result_percent = round(np.mean(result_without_none) * 100, 2)
             answer = "We think it's fake!" if result_percent > 50 else "We think it's real!"
             await message.answer_photo(photo, caption=f'{result_percent}%\n' + answer)
-            keyboard = get_feedback_keyboard(filename=f'data/{result_video_path}', class_name='real' if result_percent <= 50 else 'fake')
+            keyboard = get_feedback_keyboard(filename=f'data/{result_video_path}',
+                                             class_name='real' if result_percent <= 50 else 'fake')
             await message.answer(text=LEXICON_EN['feedback'], reply_markup=keyboard)
 
         answer = 'All faces were analyzed successfully!'
@@ -238,4 +249,4 @@ def register_user_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(switch_model, regexp=r'switch to \d')
     dp.register_callback_query_handler(write_feedback, regexp=r'we are .*')
     dp.register_message_handler(process_photo, content_types=['photo'])
-    dp.register_message_handler(process_video, content_types=['video'])
+    dp.register_message_handler(process_video, content_types=['video', 'video_note'])
