@@ -18,8 +18,6 @@ $ pip install -r requirements.txt
 $ touch .env
 $ echo "BOT_TOKEN=<your bot token>" >> .env
 $ echo "IP_ADDRESS=<address of endpoint for analisis>" >> .env # здесь записывается адрес через локалхост
-$ echo "MODEL385148863=5" >> .env # нужно, чтобы мы с Виталей могли нормально работать с ботом
-$ echo "MODEL1084029137=5" >> .env # нужно, чтобы мы с Виталей могли нормально работать с ботом
 ```
 
 Также надо создать там же, где находится файл app.py, файл bot_feedback.txt в него будет записываться обратная связь пользователей 
