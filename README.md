@@ -12,7 +12,7 @@ $ source <name of your virtual environment>/bin/activate
 ```bash
 $ pip install -r requirements.txt
 ```
-Потом создать .env файл и записать в него токен бота [TOKEN](https://core.telegram.org/bots/api), который можно достать из [bot](https://telegram.me/BotFather). Пример токена есть в [.env.example](.env.example)
+Потом создать .env файл и записать в него токен бота [TOKEN](https://core.telegram.org/bots/api), который можно достать из [bot](https://telegram.me/BotFather).
 
 ```bash
 $ touch .env
